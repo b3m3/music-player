@@ -82,12 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
 						albumArt.src = `data:${picture.format};base64,${base64String}`
 						albumArt.style.display = 'block'
 					} else {
-						albumArt.src = '../icons/mp3.svg';
+						albumArt.src = './icons/mp3.svg';
 					}
 				},
 				onError: error => {
 					console.error('Error reading tags:', error)
-					albumArt.src = '../icons/mp3.svg';
+					albumArt.src = './icons/mp3.svg';
 				},
 			})
 
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			updateActiveClass()
 		} catch (err) {
 			console.error('Error playing music file:', err)
-			albumArt.src = '../icons/mp3.svg';
+			albumArt.src = './icons/mp3.svg';
 		}
 	}
 

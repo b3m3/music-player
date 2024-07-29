@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+  <title>Music Player</title>
+</head>
+<body>
+  <div class="app">
+    
+      <!-- TOP -->
+      <section class="player">
+        <div class="player-poster">
+          <img src="icons/mp3.svg" class="album-art" alt="Album Art">
+        </div>
+
+        <div class="player-controls">
+          <p class="current-track"></p>
+          <audio class="audio-element" src=""></audio>
+
+          <div class="audio-player-buttons">
+            <button class="back-btn ibg">
+              <img src="./icons/back.svg" alt="Back">
+            </button>
+            <button class="play-btn ibg">
+              <img src="./icons/play.svg" alt="Play">
+            </button>
+            <button class="next-btn ibg">
+              <img src="./icons/next.svg" alt="Next">
+            </button>
+
+            <!-- <button class="pause-btn">Pause</button> -->
+          </div>
+
+          <div class="audio-player-bottom">
+            <div class="audio-player-bottom-col">
+              <span class="current-time">0:00</span>
+              <span class="total-time">0:00</span>
+            </div>
+            <input class="seek-bar" type="range" min="0" value="0">
+          </div>
+        </div>
+      </section>
+  
+      <!-- BOTTOM -->
+      <section class="music">
+        <button class="select-dir-btn ibg">
+          <img src="./icons/folder.svg" alt="Select folder">
+        </button>
+
+        <ul class="music-list">
+          <li>Playlist is empty</li>
+        </ul>
+      </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -363,6 +363,9 @@ input[type="range"]:focus::-moz-range-thumb {
     max-height: 100%;
     overflow: scroll;
     padding: .625rem;
+    max-width: 32.5rem;
+    margin: 0 auto;
+    width: 100%;
   }
 
   .music-item {

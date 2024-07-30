@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const fileHandleMap = new Map()
-	const musicList = document.querySelector('.music-list')
+	const musicList = document.querySelector('.playlist-list')
 	const audioPlayer = document.querySelector('.audio-element')
 	const albumArt = document.querySelector('.album-art')
 	const playBtn = document.querySelector('.play-btn')
@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			})
 
 			// Обновление информации о треке
-			currentTrackName = file.name
-			currentTrackDisplay.textContent = `Playing: ${currentTrackName}`
+			currentTrackName = file.name.split('.').shift();
+			currentTrackDisplay.textContent = currentTrackName;
 
 			// Update seek bar and total time
 			audioPlayer.addEventListener('loadedmetadata', () => {

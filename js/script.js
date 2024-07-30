@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const currentTimeDisplay = document.querySelector('.current-time')
 	const totalTimeDisplay = document.querySelector('.total-time')
 	const currentTrackDisplay = document.querySelector('.current-track')
+	const selectFilesBtn = document.querySelector('.select-files-btn')
 
 	let currentIndex = null
 	let currentTrackName = ''
@@ -22,51 +23,47 @@ document.addEventListener('DOMContentLoaded', () => {
 		return str.split('-')[0]
 	}
 
-	document
-		.querySelector('.select-dir-btn')
-		.addEventListener('click', async () => {
-			if ('showDirectoryPicker' in window) {
-				try {
-					const dirHandle = await window.showDirectoryPicker()
-					musicList.innerHTML = ''
-					fileHandleMap.clear()
-					currentIndex = null // Reset current index when loading new directory
+	document.querySelector('.select-dir-btn').addEventListener('click', () => {
+		selectFilesBtn.click()
+	})
 
-					let index = 0
-					for await (const entry of dirHandle.values()) {
-						if (entry.kind === 'file' && entry.name.endsWith('.mp3')) {
-							const li = document.createElement('li')
-							const p = document.createElement('p')
-							const span = document.createElement('span')
+	selectFilesBtn.addEventListener('change', event => {
+		const files = event.target.files
+		if (files.length > 0) {
+			musicList.innerHTML = ''
+			fileHandleMap.clear()
+			currentIndex = null // Reset current index when loading new files
 
-							p.textContent = getMusicExecutor(entry.name)
-							span.textContent = getMusicName(entry.name)
+			Array.from(files).forEach((file, index) => {
+				if (file.name.endsWith('.mp3')) {
+					const li = document.createElement('li')
+					const p = document.createElement('p')
+					const span = document.createElement('span')
 
-							li.append(p)
-							li.append(span)
-							li.dataset.index = index
-							li.classList.add('music-item')
-							li.addEventListener('click', playMusic)
-							musicList.appendChild(li)
-							fileHandleMap.set(index, entry)
-							index++
-						}
-					}
-				} catch (err) {
-					console.error('Error accessing directory:', err)
+					p.textContent = getMusicExecutor(file.name)
+					span.textContent = getMusicName(file.name)
+
+					li.append(p)
+					li.append(span)
+					li.dataset.index = index
+					li.classList.add('music-item')
+					li.addEventListener('click', playMusic)
+					musicList.appendChild(li)
+					fileHandleMap.set(index, file)
 				}
-			} else {
-				alert('Your browser does not support the File System Access API')
-			}
-		})
+			})
+		}
+	})
 
 	async function playMusic(event) {
-		const index = event.target.dataset.index
+		const liElement = event.target.closest('li')
+		if (!liElement) return
+
+		const index = liElement.dataset.index
 		currentIndex = parseInt(index)
-		const fileHandle = fileHandleMap.get(currentIndex)
+		const file = fileHandleMap.get(currentIndex)
 
 		try {
-			const file = await fileHandle.getFile()
 			const url = URL.createObjectURL(file)
 			audioPlayer.src = url
 			audioPlayer.play()
@@ -87,13 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				},
 				onError: error => {
 					console.error('Error reading tags:', error)
-					albumArt.src = './icons/mp3.svg';
+					albumArt.src = './icons/mp3.svg'
 				},
 			})
 
 			// Обновление информации о треке
-			currentTrackName = file.name.split('.').shift();
-			currentTrackDisplay.textContent = currentTrackName
+			currentTrackName = file.name
+			currentTrackDisplay.textContent = `Playing: ${currentTrackName}`
 
 			// Update seek bar and total time
 			audioPlayer.addEventListener('loadedmetadata', () => {
@@ -113,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			updateActiveClass()
 		} catch (err) {
 			console.error('Error playing music file:', err)
-			albumArt.src = './icons/mp3.svg';
+			albumArt.src = './icons/mp3.svg'
 		}
 	}
 
@@ -147,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		if (currentIndex === null) {
 			// Play the first track if no track is currently selected
-			playMusic({ target: { dataset: { index: 0 } } })
+			playMusic({ target: musicList.querySelector('.music-item') })
 		} else if (audioPlayer.paused) {
 			audioPlayer.play()
 			playBtn.querySelector('img').src = './icons/pause.svg'
@@ -164,7 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (nextIndex >= fileHandleMap.size) {
 				nextIndex = 0 // Loop back to the first track if the end of the list is reached
 			}
-			playMusic({ target: { dataset: { index: nextIndex } } })
+			playMusic({
+				target: musicList.querySelector(`li[data-index="${nextIndex}"]`),
+			})
 		}
 	})
 
@@ -175,7 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (prevIndex < 0) {
 				prevIndex = fileHandleMap.size - 1 // Loop back to the last track if the start of the list is reached
 			}
-			playMusic({ target: { dataset: { index: prevIndex } } })
+			playMusic({
+				target: musicList.querySelector(`li[data-index="${prevIndex}"]`),
+			})
 		}
 	})
 

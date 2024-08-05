@@ -14,9 +14,12 @@
   --gray-100: #F0F0F8;
   --gray-150: #dedee7;
   --gray-300: #91919c;
+  --gray-900: #242427;
   --orange: #FF553E;
   --shadow-1: -4px -4px 4px rgba(255, 255, 255, 1),4px 4px 4px rgba(0, 0, 0, 0.08);
   --shadow-2: -5px -5px 10px rgba(255, 255, 255, 0.5),5px 5px 10px rgba(0, 0, 0, 0.05),inset 5px 5px 10px rgba(0, 0, 0, 0.05),inset -5px -5px 10px rgba(255, 255, 255, 0.5);
+  --shadow-3: -4px -4px 4px rgba(255, 255, 255, 0.09),4px 4px 4px rgba(0, 0, 0, 0.5);
+  --shadow-4: -5px -5px 10px rgba(255, 255, 255, 0.09),5px 5px 10px rgba(0, 0, 0, 0.5),inset 5px 5px 10px rgba(0, 0, 0, 0.5),inset -5px -5px 10px rgba(255, 255, 255, 0.09);
 }
 
 html {
@@ -32,6 +35,34 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background: var(--gray-100);
+}
+
+body.dark {
+  background: var(--gray-900);
+  color: var(--gray-300);
+}
+
+body.dark button,
+body.dark .music-item, 
+body.dark .music-item, 
+body.dark .player-poster {
+  box-shadow: var(--shadow-3) !important;
+}
+
+body.dark path {
+  stroke: var(--gray-300) !important;
+}
+
+body.dark .music-item.active {
+  box-shadow: var(--shadow-4) !important;
+}
+
+body.dark input[type="range"]::-webkit-slider-runnable-track {
+  background-color: var(--gray-300) !important;
+}
+
+body.dark input[type="range"]::-moz-range-track {
+  background-color: var(--gray-300) !important;
 }
 
 .container {
@@ -59,7 +90,7 @@ button {
   position: relative;
 }
 
-.ibg img {
+.ibg img, .ibg svg {
   position: absolute;
   top: 0;
   left: 0;
@@ -68,7 +99,23 @@ button {
   object-fit: contain;
 }
 
-@keyframes rotate-vvnil {
+.theme-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  box-shadow: var(--shadow-1);
+}
+
+.theme-btn svg {
+  padding: 7px;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 1.0625rem;
+}
+
+@keyframes rotate-vinyl {
   0% {
     transform: translateY(-50%) rotate(0);
   }
@@ -120,7 +167,6 @@ button {
   width: 15rem;
   height: 15rem;
   border-radius: 50%;
-  border: 3px solid var(--gray-100);
   box-shadow: var(--shadow-1);
 }
 
@@ -159,7 +205,7 @@ button {
   box-shadow: var(--shadow-1);
 }
 
-.select-dir-btn img {
+.select-dir-btn svg {
   padding: 8px;
 }
 
@@ -180,7 +226,6 @@ button {
   padding: 0 75px 0 1.875rem;
   min-height: 4.375rem;
   width: 100%;
-  border: 1px solid var(--gray-100);;
   border-radius: 50px;
   box-shadow: var(--shadow-1)
 }
@@ -213,7 +258,7 @@ button {
   height: 3.125rem;
   background: url('../vinyl.png') no-repeat;
   background-size: cover;
-  animation: rotate-vvnil 5s linear infinite;
+  animation: rotate-vinyl 5s linear infinite;
 }
 
 .player-controls {
@@ -241,7 +286,7 @@ button {
   opacity: .7;
 }
 
-.player-controls-top button img  {
+.player-controls-top button svg  {
   padding: .625rem;
 }
 

@@ -217,6 +217,21 @@ h1 {
   gap: .9375rem;
 }
 
+.playlist-list-box {
+  position: relative;
+  width: 16.875rem;
+  height: 13.75rem;
+}
+
+.playlist-list-box img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .music-item {
   position: relative;
   cursor: pointer;
@@ -256,7 +271,7 @@ h1 {
   transform: translateY(-50%);
   width: 3.125rem;
   height: 3.125rem;
-  background: url('../vinyl.png') no-repeat;
+  background: url('../img/vinyl.png') no-repeat;
   background-size: cover;
   animation: rotate-vinyl 5s linear infinite;
 }
